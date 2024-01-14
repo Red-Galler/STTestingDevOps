@@ -1,0 +1,78 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_CREDENTIALS = credentials('docker-access')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout([$class: 'GitSCM', branches: [[name: '*/Develop']], userRemoteConfigs: [[url: 'https://github.com/Red-Galler/STTestingDevOps.git']]])
+                }
+            }
+        }
+
+        stage('Echo Repo Content') {
+            steps {
+                script {
+                    // Print the content of the 'opiniononline' directory
+                    bat 'dir opiniononline'
+                }
+            }
+        }
+
+        stage('Check Docker Version') {
+            steps {
+                script {
+                    // Echo Docker version
+                    bat 'docker --version'
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Authenticate against Docker registry
+                    withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-access', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD']]) {
+                        
+                        // Change to the 'opiniononline' directory
+                        dir('opiniononline') {
+                            // Build and tag Docker image
+                            bat "docker build -t jenkins-opiniononline ."
+                            bat "docker tag jenkins-opiniononline opiniononlineregistry/jenkins-opiniononline:${BUILD_NUMBER}"
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Run Docker Container') {
+            steps {
+                script {
+                    // Run Docker container with a unique name based on build number
+                    bat "docker run -p 3000:3000 --name opiniononlinecontainer-${BUILD_NUMBER} -d opiniononlineregistry/jenkins-opiniononline:${BUILD_NUMBER}"
+                }
+            }
+        }
+        stage('Run JavaScript') {
+    steps {
+        script {
+            // Change to the 'opiniononline' directory
+            dir('opiniononline') {
+                // Install dependencies
+                bat 'npm install'
+
+                // Run tests
+                bat 'npm run test'
+            }
+        }
+    }
+}
+
+
+        // Add more stages as needed
+    }
+}

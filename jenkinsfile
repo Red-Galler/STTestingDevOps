@@ -57,7 +57,7 @@ pipeline {
                 }
             }
         }
-        stage('Run JavaScript') {
+        stage('Run Tests') {
     steps {
         script {
             // Change to the 'opiniononline' directory

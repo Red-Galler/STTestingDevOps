@@ -1,0 +1,58 @@
+
+.login-container {
+    width: 1100px; /* Breedte van het vierkant */
+    height: 900px;
+    border: 1px solid #ccc; /* Rand om het vierkant */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff; /* Achtergrondkleur van het vierkant */
+    margin: 0 auto; /* Het vierkant in het midden van het scherm plaatsen */
+  }
+  
+  
+  button[type="submit"] {
+    background-color: #92d36e; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px;
+    cursor: pointer; 
+  }
+ 
+  .form-group label {
+    display: block; 
+    text-align: left; 
+    margin-bottom: 5px; 
+    color: #629c44; 
+  }
+  
+  .form-group input {
+    border: none; /* Verwijder de rand om de invoervelden */
+    border-bottom: 1px solid #999;
+  }
+  
+  .form-group input:focus {
+    outline: none; 
+  }
+  
+  .form-group .horizontal-line {
+    margin-top: 5px; /*  voeg wat ruimte toe boven de lijn */
+    margin-bottom: 20px; /* voeg wat ruimte toe onder de lijn */
+  }
+  
+.login-title {
+  text-align: left;
+  color: #629c44;
+  margin: 0;
+}
+
+  
+  
+  
+  
+  
+  
+  
+  

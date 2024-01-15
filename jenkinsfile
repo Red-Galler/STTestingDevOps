@@ -5,10 +5,6 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('docker-access')
     }
 
-    //triggers {
-    //    cron('*/6 * * * *')
-    //}/
-
     stages {
         stage('Checkout') {
             steps {
@@ -62,48 +58,18 @@ pipeline {
             }
         }
         stage('Run Tests') {
-    steps {
-        script {
-            // Change to the 'opiniononline' directory
-            dir('opiniononline') {
-                // Install dependencies
-                bat 'npm install'
+            steps {
+                script {
+                    // Change to the 'opiniononline' directory
+                    dir('opiniononline') {
+                    // Install dependencies
+                    bat 'npm install'
 
-                // Run tests
-                bat 'npm run test'
+                    // Run tests
+                    bat 'npm run test'
+                    }
+                }
             }
         }
     }
-}
-
-/*illustrate example
-stage('Run New Tests') {
-    steps {
-        script {
-            // Change to the 'opiniononline' directory
-            dir('opiniononline') {
-
-                // Run tests
-                bat 'npm run unit'
-            }
-        }
-    }
-}
-
-//illustrate example
-stage('Promote to Master') {
-    steps {
-        script {
-            sh 'git checkout Master'
-
-            sh 'git merge origin/Develop'
-
-            sh 'git push origin Master'
-        }
-    }
-}
-
-        // Add more stages as needed
-    }
-    */
 }
